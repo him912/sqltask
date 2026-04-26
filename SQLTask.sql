@@ -22,21 +22,6 @@ CREATE TABLE products (
 );
 
 
-CREATE TABLE IF NOT EXISTS orders (
-    id           INT            NOT NULL AUTO_INCREMENT,
-    customer_id  INT            NOT NULL,
-    order_date   DATE           NOT NULL,
-    total_amount DECIMAL(10, 2) NOT NULL,
-    PRIMARY KEY (id),
-    CONSTRAINT fk_orders_customer
-        FOREIGN KEY (customer_id) REFERENCES customers (id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
-
-DELETE FROM orders;
-TRUNCATE TABLE orders;
-
 -- Table to store order details
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
