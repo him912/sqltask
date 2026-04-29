@@ -5,11 +5,6 @@ CREATE DATABASE ecommerce;
 -- Use the database
 USE ecommerce;
 
-DROP TABLE IF EXISTS order_items;
-DROP TABLE IF EXISTS orders;
-DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS customers;
-
 -- Table to store customer details
 CREATE TABLE customers (
     id INT AUTO_INCREMENT PRIMARY KEY,
