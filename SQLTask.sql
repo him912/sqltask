@@ -91,7 +91,7 @@ INSERT INTO order_items (order_id, product_id, quantity, price) VALUES
 SELECT * FROM customers;
 SELECT * FROM products;
 SELECT * FROM orders;
-SELECT * FROM orders;
+SELECT * FROM order_items;
 
 
 -- Get customers who placed orders in last 30 days
