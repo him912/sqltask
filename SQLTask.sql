@@ -5,6 +5,11 @@ CREATE DATABASE ecommerce;
 -- Use the database
 USE ecommerce;
 
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS customers;
+
 -- Table to store customer details
 CREATE TABLE customers (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -21,7 +26,6 @@ CREATE TABLE products (
     description TEXT
 );
 
-
 -- Table to store order details
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -29,6 +33,18 @@ CREATE TABLE orders (
     order_date DATE,
     total_amount DECIMAL(10,2),
     FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
+
+-- Create Order_Items table for database normalization
+CREATE TABLE order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
 -- Insert sample customers
@@ -64,9 +80,22 @@ INSERT INTO orders (customer_id, order_date, total_amount) VALUES
 (2, DATE_FORMAT(CURDATE(), '%Y-%m-17'), 220.00),
 (3, DATE_FORMAT(CURDATE(), '%Y-%m-18'), 275.00),
 (1, DATE_FORMAT(CURDATE(), '%Y-%m-19'), 350.00);
+-- Insert sample order items
+INSERT INTO order_items (order_id, product_id, quantity, price) VALUES
+(1, 1, 2, 100.00),
+(1, 2, 1, 150.00),
+(2, 3, 1, 200.00),
+(3, 4, 2, 250.00),
+(4, 5, 1, 300.00),
+(5, 6, 3, 120.00),
+(6, 7, 1, 180.00),
+(7, 8, 2, 220.00),
+(8, 9, 1, 275.00),
+(9, 10, 1, 350.00);
 
 SELECT * FROM customers;
 SELECT * FROM products;
+SELECT * FROM orders;
 SELECT * FROM orders;
 
 
@@ -99,12 +128,6 @@ ORDER BY price DESC
 LIMIT 3;
 
 -- Get customers who ordered Product A
-SELECT DISTINCT c.name
-FROM customers c
-JOIN orders o ON c.id = o.customer_id
-JOIN products p ON o.product_id = p.id
-WHERE p.name = 'Product A';
-
 SELECT DISTINCT c.name AS customer_name
 FROM   customers   c
 JOIN   orders      o  ON o.customer_id = c.id
